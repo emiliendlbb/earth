@@ -8,6 +8,11 @@ console.log("============================================================");
 console.log(new Date().toISOString() + " - Starting");
 
 var util = require("util");
+var express = require("express");
+var compression = require('compression');
+var morgan = require('morgan');
+
+var app = express();
 
 /**
  * Returns true if the response should be compressed.
@@ -26,29 +31,25 @@ function cacheControl() {
     };
 }
 
-function logger() {
-    express.logger.token("date", function() {
-        return new Date().toISOString();
-    });
-    express.logger.token("response-all", function(req, res) {
-        return (res._header ? res._header : "").trim();
-    });
-    express.logger.token("request-all", function(req, res) {
-        return util.inspect(req.headers);
-    });
-    return express.logger(
-        ':date - info: :remote-addr :req[cf-connecting-ip] :req[cf-ipcountry] :method :url HTTP/:http-version ' +
-        '":user-agent" :referrer :req[cf-ray] :req[accept-encoding]\\n:request-all\\n\\n:response-all\\n');
-}
+// Define custom tokens for Morgan
+morgan.token('date', function() {
+    return new Date().toISOString();
+});
+morgan.token('response-all', function(req, res) {
+    return (res._header ? res._header : "").trim();
+});
+morgan.token('request-all', function(req, res) {
+    return util.inspect(req.headers);
+});
 
-var port = process.argv[2];
-var express = require("express");
-var app = express();
+// Configure Morgan logging
+app.use(morgan(':date - info: :remote-addr :method :url HTTP/:http-version ":user-agent" :referrer :response-time ms\\n:request-all\\n\\n:response-all\\n'));
 
 app.use(cacheControl());
-app.use(express.compress({filter: compressionFilter}));
-app.use(logger());
+app.use(compression({ filter: compressionFilter }));
 app.use(express.static("public"));
 
-app.listen(port);
-console.log("Listening on port " + port + "...");
+var port = process.argv[2];
+app.listen(port, () => {
+    console.log("Listening on port " + port + "...");
+});

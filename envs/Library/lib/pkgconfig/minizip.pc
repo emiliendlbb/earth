@@ -1,0 +1,14 @@
+prefix=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library
+exec_prefix=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library
+libdir=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library/lib
+sharedlibdir=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library/lib
+includedir=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library/include/minizip
+
+Name: minizip
+Description: Zip manipulation library
+Version: 4.0.3
+
+Requires.private: zlib
+Libs: -L${libdir} -L${sharedlibdir} -lminizip
+Libs.private: -lbzip2 -llzma -lzstd
+Cflags: -I${includedir}

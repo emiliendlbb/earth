@@ -1,0 +1,12 @@
+prefix=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library
+exec_prefix=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library
+libdir=
+includedir=C:/Users/emili/OneDrive/Documents/projets/Weather_diffusion/earth/earth/envs/Library/include/
+
+Name: cfitsio
+Description: FITS File Subroutine Library
+URL: https://heasarc.gsfc.nasa.gov/fitsio/
+Version: .
+Libs: -L${libdir} 
+Libs.private: -lm
+Cflags: -I${includedir}
